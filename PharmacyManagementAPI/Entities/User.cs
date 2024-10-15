@@ -1,7 +1,10 @@
-﻿namespace PharmacyManagementAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PharmacyManagementAPI.Entities
 {
     public class User
     {
+        [Key]
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }

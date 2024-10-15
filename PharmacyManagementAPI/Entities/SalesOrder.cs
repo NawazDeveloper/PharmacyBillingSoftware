@@ -1,7 +1,10 @@
-﻿namespace PharmacyManagementAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PharmacyManagementAPI.Entities
 {
     public class SalesOrder
     {
+        [Key]
         public int SalesOrderID { get; set; }
         public DateTime OrderDate { get; set; }
         public int CustomerID { get; set; }

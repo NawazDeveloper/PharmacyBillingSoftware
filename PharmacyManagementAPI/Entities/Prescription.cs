@@ -1,8 +1,10 @@
-﻿namespace PharmacyManagementAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PharmacyManagementAPI.Entities
 {
     public class Prescription
     {
-
+        [Key]
         public int PrescriptionID { get; set; }
         public int CustomerID { get; set; }
         public string DoctorName { get; set; }

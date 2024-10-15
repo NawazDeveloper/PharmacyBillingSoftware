@@ -1,9 +1,11 @@
-﻿namespace PharmacyManagementAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PharmacyManagementAPI.Entities
 {
     public class Product
     {
-       
-            public int ProductID { get; set; }
+        [Key]
+        public int ProductID { get; set; }
             public string ProductName { get; set; }
             public string ProductCode { get; set; }  // Barcode or unique code for the product
             public int CategoryID { get; set; }

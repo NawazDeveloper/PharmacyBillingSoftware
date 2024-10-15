@@ -13,7 +13,7 @@
 
             public DbSet<User> Users { get; set; }
             public DbSet<Product> Products { get; set; }
-            public DbSet<License> Licenses { get; set; }
+           // public DbSet<License> Licenses { get; set; }
             public DbSet<Customer> Customers { get; set; }
             public DbSet<SalesOrder> SalesOrders { get; set; }
             public DbSet<Category> Categories { get; set; }
