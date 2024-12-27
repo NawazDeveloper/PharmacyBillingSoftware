@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PharmacyManagementAPI.Data.PharmacyManagementAPI.Data;
 using PharmacyManagementAPI.Repositories;
+using PharmacyManagementAPI.Services.IService;
+using PharmacyManagementAPI.Services.Service;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +50,7 @@ builder.Services.AddCors(options =>
 // Add Repository Pattern Services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // Build the app
 var app = builder.Build();
