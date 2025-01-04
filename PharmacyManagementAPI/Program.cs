@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using PharmacyManagementAPI.Data;
 using PharmacyManagementAPI.Data.PharmacyManagementAPI.Data;
 using PharmacyManagementAPI.Repositories;
 using PharmacyManagementAPI.Services.IService;
@@ -13,7 +14,15 @@ builder.Services.AddControllers();
 
 // Add Swagger/OpenAPI if in development environment
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Pharmacy Management API",
+        Version = "v1",
+        Description = "API documentation for the Pharmacy Management System"
+    });
+});
 
 // Configure DbContext (with SQL Server)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -30,27 +39,23 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add Authentication (JWT Example)
-//builder.Services.AddAuthentication("Bearer")
-//    .AddJwtBearer("Bearer", options =>
-//    {
-//        options.RequireHttpsMetadata = false;
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//            ValidAudience = builder.Configuration["Jwt:Audience"],
-//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//        };
-//    });
+
 
 // Add Repository Pattern Services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
+
 
 // Build the app
 var app = builder.Build();
@@ -58,11 +63,17 @@ var app = builder.Build();
 // Configure the middleware
 if (app.Environment.IsDevelopment())
 {
-    // Enable Swagger in development mode
-    app.UseSwagger();
-    app.UseSwaggerUI();
+   
+
+   
+
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pharmacy Management API V1");
+});
 // Global Exception Handling Middleware (if any)
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
@@ -70,7 +81,7 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 // Enable CORS
-app.UseCors("AllowAll");
+app.UseCors("AllowAllOrigins");
 
 // Enable Authentication and Authorization
 app.UseAuthentication();
